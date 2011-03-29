@@ -637,7 +637,7 @@ class Client(httplib2.Http):
         self.method = method
 
     def request(self, uri, method="GET", body='', headers=None, 
-        redirections=httplib2.DEFAULT_MAX_REDIRECTS, connection_type=None, oauth_extra_params):
+        redirections=httplib2.DEFAULT_MAX_REDIRECTS, connection_type=None, oauth_extra_params=None):
         """
         oauth_extra_params is a set of additional oauth_parameters, e.g. oauth_callback,
         which must be included in the OAuth header, not in the URL or HTTP body.
