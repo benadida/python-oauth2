@@ -637,7 +637,12 @@ class Client(httplib2.Http):
         self.method = method
 
     def request(self, uri, method="GET", body='', headers=None, 
-        redirections=httplib2.DEFAULT_MAX_REDIRECTS, connection_type=None):
+        redirections=httplib2.DEFAULT_MAX_REDIRECTS, connection_type=None, oauth_extra_params):
+        """
+        oauth_extra_params is a set of additional oauth_parameters, e.g. oauth_callback,
+        which must be included in the OAuth header, not in the URL or HTTP body.
+        This is required for Google.
+        """
         DEFAULT_POST_CONTENT_TYPE = 'application/x-www-form-urlencoded'
 
         if not isinstance(headers, dict):
@@ -654,6 +659,10 @@ class Client(httplib2.Http):
             parameters = parse_qs(body)
         else:
             parameters = None
+
+        # special OAuth parameters
+        if oauth_extra_params:
+            parameters.update(oauth_extra_params)
 
         req = Request.from_consumer_and_token(self.consumer, 
             token=self.token, http_method=method, http_url=uri, 
