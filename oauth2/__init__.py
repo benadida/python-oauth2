@@ -658,7 +658,7 @@ class Client(httplib2.Http):
         if is_form_encoded and body:
             parameters = parse_qs(body)
         else:
-            parameters = None
+            parameters = {}
 
         # special OAuth parameters
         if oauth_extra_params:
